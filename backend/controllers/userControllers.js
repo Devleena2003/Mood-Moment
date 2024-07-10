@@ -1,14 +1,32 @@
 const { hashPassword, comparePassword } = require("../helpers/authHelper");
 const userModel = require("../models/userModels");
-const JWT = require("jsonwebtoken");
-var { expressjwt: jwt } = require("express-jwt");
+const jwt = require("jsonwebtoken");
 
 //middleware
 
-const requireSignIn = jwt({
-  secret: process.env.JWT_KEY,
-  algorithms: ["HS256"],
-});
+const requireSignIn = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res
+      .status(401)
+      .send({ success: false, message: "Authorization header missing" });
+  }
+
+  const token = authHeader.split(" ")[1]; // Extract token from Authorization header
+  if (!token) {
+    return res
+      .status(401)
+      .send({ success: false, message: "Token not provided" });
+  }
+
+  jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ success: false, message: "Invalid token" });
+    }
+    req.user = decoded; // Attach decoded user information to request object
+    next();
+  });
+};
 const registerController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -84,7 +102,7 @@ const loginController = async (req, res) => {
       });
     }
 
-    const token = await JWT.sign({ id: user._id }, process.env.JWT_KEY, {
+    const token = await jwt.sign({ id: user._id }, process.env.JWT_KEY, {
       expiresIn: "7d",
     });
 
@@ -103,9 +121,94 @@ const loginController = async (req, res) => {
     });
   }
 };
+const updateUserStylePreferencesController = async (req, res) => {
+  try {
+    const userId = req.user.id; // Assuming user ID is available in the req.user from JWT
+    const { preferredStyles } = req.body;
+
+    // Validate the input
+    if (!Array.isArray(preferredStyles)) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid preferences format.",
+      });
+    }
+
+    // Update user preferences
+    const user = await userModel.findByIdAndUpdate(
+      userId,
+      { preferredStyles },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "User style preferences updated successfully",
+      user,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Error updating user style preferences",
+      e,
+    });
+  }
+};
+
+const updateUserColorPreferencesController = async (req, res) => {
+  try {
+    const userId = req.user.id; // Assuming user ID is available in the req.user from JWT
+    const { preferredColors } = req.body;
+
+    // Validate the input
+    if (!Array.isArray(preferredColors)) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid preferences format. ",
+      });
+    }
+
+    // Update user preferences
+    const user = await userModel.findByIdAndUpdate(
+      userId,
+      { preferredColors },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "User color preferences updated successfully",
+      user,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Error updating user color preferences",
+      e,
+    });
+  }
+};
 
 module.exports = {
   requireSignIn,
   loginController,
   registerController,
+  updateUserStylePreferencesController,
+  updateUserColorPreferencesController,
 };
