@@ -10,6 +10,8 @@ import HeaderMenu from "./HeaderMenu";
 import userInput1 from "../../screens/userInput1";
 import userInput2 from "../../screens/userInput2";
 import calender from "../../screens/calender";
+import mood from "../../screens/mood";
+import moodDress from "../../screens/moodDress";
 
 const ScreenMenu = () => {
   const [state] = useContext(AuthContext);
@@ -46,6 +48,23 @@ const ScreenMenu = () => {
           <Stack.Screen
             name="calender"
             component={calender}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+
+          <Stack.Screen
+            name="mood"
+            component={mood}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+          <Stack.Screen
+            name="dress"
+            component={moodDress}
             options={{
               title: "Mood & Moment",
               headerRight: () => <HeaderMenu />,

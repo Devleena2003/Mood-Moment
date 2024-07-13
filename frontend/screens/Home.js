@@ -35,7 +35,7 @@ const Home = ({ navigation }) => {
           <Text style={styles.des}>Wear Your Feelings</Text>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("")}
+            onPress={() => navigation.navigate("mood")}
           >
             <Text style={{ color: "#fff" }}>Explore</Text>
           </TouchableOpacity>
