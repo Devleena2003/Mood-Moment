@@ -4,8 +4,11 @@ import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 const DressesScreen = ({ route }) => {
   const { dresses } = route.params;
 
-  const renderDressItem = ({ item }) => (
-    <View style={styles.dressItem}>
+  const renderDressItem = ({ item, index }) => (
+    <View
+      style={styles.dressItem}
+      key={`${item.Dress_Path}-${item.title}-${index}`}
+    >
       <Image source={{ uri: item.Dress_Path }} style={styles.dressImage} />
     </View>
   );
@@ -14,7 +17,9 @@ const DressesScreen = ({ route }) => {
     <View style={styles.container}>
       <FlatList
         data={dresses}
-        keyExtractor={(item) => item.Dress_Path}
+        keyExtractor={(item, index) =>
+          `${item.Dress_Path}-${item.title}-${index}`
+        } // Use a combination of Dress_Path, title, and index as key
         renderItem={renderDressItem}
       />
     </View>

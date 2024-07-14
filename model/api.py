@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pymongo import MongoClient
+from bson import ObjectId
 import pandas as pd
 
 app = FastAPI()
@@ -31,15 +32,11 @@ class DressSelectionRequest(BaseModel):
     selected_dresses: list[str]
 
 class Dress(BaseModel):
-    image_path: str
-    dress_type: str
-
-class Accessory(BaseModel):
-    name: str
-    category: str
+    dress_path: str
+    accessory_path: str
 
 # Endpoint for fetching dresses by event
-@app.post("/event-dresses/")
+@app.post("/closet/")
 async def fetch_dresses_by_event(request: EventRequest):
     try:
         event_name = request.event_name
@@ -53,17 +50,17 @@ async def fetch_dresses_by_event(request: EventRequest):
         raise HTTPException(status_code=404, detail=str(e))
 
 # Endpoint for fetching accessories for selected dresses
-@app.post("/event-accessories/")
+@app.post("/accessories/")
 async def fetch_accessories_for_dresses(request: DressSelectionRequest):
     try:
         selected_dress_accessories = []
+        
         for dress in request.selected_dresses:
-            # Filter accessories based on the selected dress paths
-            accessories = df[(df['Accessory_Path'].notna()) & (df['Dress_Path'] == dress)]['Accessory_Path'].values.tolist()
+            # Fetch accessories for each dress
+            accessories = df[df['Dress_Path'] == dress]['Accessory_Path'].values.tolist()
             selected_dress_accessories.extend(accessories)
         
-        accessory_details = [{"name": acc.split('/')[-1], "category": "Accessory"} for acc in selected_dress_accessories]
-        return {"accessories": accessory_details}
+        return {"accessories": selected_dress_accessories}
     
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
@@ -72,4 +69,4 @@ async def fetch_accessories_for_dresses(request: DressSelectionRequest):
 # Run the app with Uvicorn
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8001)

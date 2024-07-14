@@ -25,12 +25,12 @@ const userInput2 = ({ navigation }) => {
       if (isCheckedOrange) preferences.preferredColors.push("Orange");
 
       const response = await axios.put(
-        "http://192.168.29.3:5000/api/v1/auth/user/color/preferences",
+        "http://192.168.29.3:5000/api/v1/auth/color/preferences",
         preferences
       );
 
       console.log("Preferences updated successfully:", response.data.message);
-      navigation.navigate("calender");
+      navigation.navigate("settings");
     } catch (error) {
       console.error("Error updating preferences:", error.message);
     }

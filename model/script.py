@@ -27,14 +27,14 @@ with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
                             # Check if Accessories folder exists
                             if not os.path.exists(accessories_folder):
                                 print(f"Accessories folder not found: {accessories_folder}")
-                                continue
+                                continue  # Skip this style if Accessories folder is missing
 
                             # Collect dress paths
-                            dress_paths = [os.path.join(dress_folder, img) for img in os.listdir(dress_folder) if img.endswith('.jpg') or img.endswith('.png') or img.endswith('.jpeg')]
+                            dress_paths = [os.path.relpath(os.path.join(dress_folder, img), dataset_dir) for img in os.listdir(dress_folder) if img.endswith('.jpg') or img.endswith('.png') or img.endswith('.jpeg')]
 
                             # Collect accessory paths corresponding to each dress
                             for dress_path in dress_paths:
-                                accessories_paths = [os.path.join(accessories_folder, img) for img in os.listdir(accessories_folder) if img.endswith('.jpg') or img.endswith('.png') or img.endswith('.jpeg')]
+                                accessories_paths = [os.path.relpath(os.path.join(accessories_folder, img), dataset_dir) for img in os.listdir(accessories_folder) if img.endswith('.jpg') or img.endswith('.png') or img.endswith('.jpeg')]
                                 
                                 # Write each dress-accessory pair to CSV
                                 for accessory_path in accessories_paths:
@@ -42,8 +42,8 @@ with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
                                         'Event': event,
                                         'Color': color,
                                         'Style': style,
-                                        'Dress_Path': dress_path,
-                                        'Accessory_Path': accessory_path
+                                        'Dress_Path': dress_path.replace('\\', '/'),  # Convert backslashes to forward slashes for compatibility
+                                        'Accessory_Path': accessory_path.replace('\\', '/')  # Convert backslashes to forward slashes for compatibility
                                     })
 
 print(f"CSV file {csv_filename} has been created successfully.")

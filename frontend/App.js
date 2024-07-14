@@ -1,13 +1,25 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-
 import RootNavigation from "./Navigation";
+import { ZoomProvider } from "./context/ZoomContext";
+import { ColorProvider } from "./context/ColorContext";
+import { TextSizeProvider } from "./context/TextSizeContext";
+import { VoiceNavigationProvider } from "./context/VoiceNavigationContext";
+
 export default function App() {
   return (
-    <NavigationContainer>
-      <RootNavigation />
-    </NavigationContainer>
+    <VoiceNavigationProvider>
+      <ZoomProvider>
+        <ColorProvider>
+          <TextSizeProvider>
+            <NavigationContainer>
+              <RootNavigation />
+            </NavigationContainer>
+          </TextSizeProvider>
+        </ColorProvider>
+      </ZoomProvider>
+    </VoiceNavigationProvider>
   );
 }
 

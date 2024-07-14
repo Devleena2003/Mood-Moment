@@ -12,6 +12,10 @@ import userInput2 from "../../screens/userInput2";
 import calender from "../../screens/calender";
 import mood from "../../screens/mood";
 import moodDress from "../../screens/moodDress";
+import DressesScreen from "../../screens/Dress";
+import settings from "../../screens/settings";
+import OtherScreen from "../../screens/OtherScreen";
+import ColourScreen from "../../screens/ColourScreen";
 
 const ScreenMenu = () => {
   const [state] = useContext(AuthContext);
@@ -46,6 +50,14 @@ const ScreenMenu = () => {
             }}
           />
           <Stack.Screen
+            name="settings"
+            component={settings}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+          <Stack.Screen
             name="calender"
             component={calender}
             options={{
@@ -73,7 +85,23 @@ const ScreenMenu = () => {
 
           <Stack.Screen
             name="eventDress"
-            component={moodDress}
+            component={DressesScreen}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+          <Stack.Screen
+            name="OtherScreen"
+            component={OtherScreen}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+          <Stack.Screen
+            name="ColourScreen"
+            component={ColourScreen}
             options={{
               title: "Mood & Moment",
               headerRight: () => <HeaderMenu />,
