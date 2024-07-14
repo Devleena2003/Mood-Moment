@@ -70,6 +70,15 @@ const ScreenMenu = () => {
               headerRight: () => <HeaderMenu />,
             }}
           />
+
+          <Stack.Screen
+            name="eventDress"
+            component={moodDress}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
         </>
       ) : (
         <>

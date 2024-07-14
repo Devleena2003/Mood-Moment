@@ -24,7 +24,10 @@ const Login = ({ navigation }) => {
         return;
       }
       setLoading(false);
-      const { data } = await axios.post("/auth/login", { email, password });
+      const { data } = await axios.post(
+        "http://192.168.29.3:5000/api/v1/auth/login",
+        { email, password }
+      );
       setState(data);
       await AsyncStorage.setItem("@auth", JSON.stringify(data));
       alert(data && data.message);
@@ -92,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#e1d5c9",
+    backgroundColor: "#F7336E",
   },
   pageTitle: {
     fontSize: 40,

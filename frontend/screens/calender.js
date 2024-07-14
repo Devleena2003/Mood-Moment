@@ -13,6 +13,7 @@ import { Calendar, LocaleConfig } from "react-native-calendars";
 import moment from "moment";
 import Modal from "react-native-modal";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
 
 LocaleConfig.locales["en"] = {
   monthNames: [
@@ -57,16 +58,19 @@ LocaleConfig.locales["en"] = {
 };
 LocaleConfig.defaultLocale = "en";
 
-const calender = () => {
+const Calender = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [events, setEvents] = useState([]);
+  const navigation = useNavigation(); // Initialize navigation
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get("/user/events");
+      const response = await axios.get(
+        "http://192.168.29.3:5000/api/v1/user/events"
+      );
       setEvents(response.data);
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -75,6 +79,7 @@ const calender = () => {
   useEffect(() => {
     fetchEvents();
   }, []);
+
   const handleDayPress = (day) => {
     const selected = moment(day.dateString);
     const today = moment();
@@ -88,13 +93,36 @@ const calender = () => {
     }
   };
 
+  const handleEventPress = async (event) => {
+    try {
+      const response = await axios.post(
+        "http://192.168.29.3:8000/event-dresses/",
+        {
+          event_name: event.title,
+        }
+      );
+      if (response.data.dresses.length > 0) {
+        navigation.navigate("eventDress", { dresses: response.data.dresses });
+      } else {
+        Alert.alert("No dresses found for this event.");
+      }
+    } catch (error) {
+      console.error("Error fetching dresses:", error);
+      Alert.alert("Failed to fetch dresses. Please try again.");
+    }
+  };
+
   const handleModalClose = () => {
     setEventTitle("");
     setEventDescription("");
     setModalVisible(false);
   };
+
   const renderEventItem = ({ item }) => (
-    <TouchableOpacity style={styles.eventItem}>
+    <TouchableOpacity
+      style={styles.eventItem}
+      onPress={() => handleEventPress(item)}
+    >
       <Text style={styles.eventTitle}>{item.title}</Text>
       <Text>{item.description}</Text>
       <Text>{moment(item.date).format("MMMM DD, YYYY")}</Text>
@@ -103,11 +131,14 @@ const calender = () => {
 
   const handleSaveEvent = async () => {
     try {
-      const response = await axios.post("/user/events", {
-        title: eventTitle,
-        description: eventDescription,
-        date: selectedDate,
-      });
+      const response = await axios.post(
+        "http://192.168.29.3:5000/api/v1/user/events",
+        {
+          title: eventTitle,
+          description: eventDescription,
+          date: selectedDate,
+        }
+      );
       Alert.alert("Event Saved!");
       fetchEvents(); // Refresh events list
       setEventTitle("");
@@ -118,6 +149,7 @@ const calender = () => {
       Alert.alert("Failed to save event. Please try again.");
     }
   };
+
   return (
     <View style={styles.container}>
       <Calendar
@@ -199,4 +231,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default calender;
+export default Calender;

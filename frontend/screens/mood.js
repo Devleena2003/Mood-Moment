@@ -8,9 +8,20 @@ const mood = ({ navigation }) => {
 
   return (
     <View>
-      <View>
-        <Text>How's Your Mood Today?</Text>
-        <Text>Let us find some clothes for you</Text>
+      <View style={styles.header}>
+        <Text
+          style={{
+            fontSize: 25,
+            fontWeight: 500,
+            textAlign: "center",
+            padding: 20,
+          }}
+        >
+          How's Your Mood Today?
+        </Text>
+        <Text style={{ fontSize: 25, textAlign: "center", padding: 10 }}>
+          Let us find some clothes for you
+        </Text>
       </View>
       <View style={styles.container}>
         <TouchableOpacity onPress={() => handleMoodSelection("happy")}>
@@ -26,7 +37,6 @@ const mood = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-
       <View style={styles.container}>
         <TouchableOpacity onPress={() => handleMoodSelection("frustated")}>
           <Image style={styles.img} source={require("../assets/angry.jpg")} />
@@ -41,8 +51,8 @@ const mood = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      <Text style={{ alignSelf: "center", padding: 10, fontSize: 20 }}>or</Text>
+      {/* //for futher implementations */}
+      {/* <Text style={{ alignSelf: "center", padding: 10, fontSize: 20 }}>or</Text>
       <View style={styles.btnCon}>
         <TouchableOpacity style={styles.button}>
           <Text style={{ color: "#fff" }}>Connect with your music app</Text>
@@ -51,7 +61,7 @@ const mood = ({ navigation }) => {
         <TouchableOpacity style={styles.button}>
           <Text style={{ color: "#fff" }}>Connect with social media</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -80,6 +90,10 @@ const styles = StyleSheet.create({
     gap: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  header: {
+    fontSize: 30,
+    textAlign: "center",
   },
 });
 

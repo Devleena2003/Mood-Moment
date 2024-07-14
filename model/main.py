@@ -129,7 +129,7 @@ plt.show()
 # print(f"Saving model to: C:\\Users\\Devleena\\Desktop\\model\\mood_classifier_model.h5")
 # model.save('C:\\Users\\Devleena\\Desktop\\model\\mood_classifier_model.h5')
 
-model_path = 'C:\\Users\\Devleena\\Desktop\\WeforShe\\model\\mood_classifier_model.h5'
+model_path = 'C:\\Users\\Devleena\\Desktop\\Myntra-Hackerramp2024\\model\\mood_classifier_model.h5'
 # Load the model
 model = load_model(model_path)
 

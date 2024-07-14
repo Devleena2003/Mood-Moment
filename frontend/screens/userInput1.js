@@ -30,7 +30,7 @@ const UserInput1 = ({ navigation }) => {
 
       // Replace 'http://localhost:3000' with your actual backend server URL
       const response = await axios.put(
-        "auth/user/style/preferences",
+        "http://192.168.29.3:5000/api/v1/auth/user/style/preferences",
         preferences
       );
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import axios from "axios"; // Import Axios
-
+const url = "http://192.168.29.3:8000";
 const moodDress = ({ route }) => {
   const { selectedMood } = route.params; // Extracting selected mood from route params
   const [dresses, setDresses] = useState([]);
@@ -11,9 +11,9 @@ const moodDress = ({ route }) => {
     const fetchDresses = async () => {
       try {
         const response = await axios.get(
-          `http://10.0.2.2:8000/dresses/?mood=${selectedMood}`
+          `${url}/dresses/?mood=${selectedMood}`
         );
-
+        console.log(response);
         if (!response.data) {
           throw new Error("Dresses not found");
         }
@@ -39,7 +39,10 @@ const moodDress = ({ route }) => {
             <Image
               style={styles.dressImage}
               source={{
-                uri: `http://10.0.2.2:8000/show_dress/?filename=${selectedMood}/${dress}`,
+                uri: `${url}/show_dress/?filename=${selectedMood}/${dress.replace(
+                  `dataset\\${selectedMood}/`,
+                  ""
+                )}`,
               }}
             />
           </TouchableOpacity>
@@ -52,6 +55,7 @@ const moodDress = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
@@ -64,14 +68,14 @@ const styles = StyleSheet.create({
   dressesContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
   },
   dressItem: {
     margin: 10,
     borderRadius: 10,
+    overflow: "hidden",
   },
   dressImage: {
-    width: 150,
+    width: 130,
     height: 150,
     resizeMode: "cover",
   },
