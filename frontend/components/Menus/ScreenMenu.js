@@ -10,15 +10,20 @@ import HeaderMenu from "./HeaderMenu";
 import userInput1 from "../../screens/userInput1";
 import userInput2 from "../../screens/userInput2";
 import calender from "../../screens/calender";
+import settings from "../../screens/settings";
+import OtherScreen from "../../screens/OtherScreen";
+import ColourScreen from "../../screens/ColourScreen";
+
 
 const ScreenMenu = () => {
-  const [state] = useContext(AuthContext);
-  const authUser = state?.user && state?.token;
+  //const [state] = useContext(AuthContext);
+  //const authUser = state?.user && state?.token;
   const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator initialRouteName="Login">
-      {authUser ? (
-        <>
+
+    <Stack.Navigator initialRouteName="settings">
+      
+        <> 
           <Stack.Screen
             name="Home"
             component={Home}
@@ -44,6 +49,14 @@ const ScreenMenu = () => {
             }}
           />
           <Stack.Screen
+          name="settings"
+          component={settings}
+          options={{
+            title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+          }}
+          />
+          <Stack.Screen
             name="calender"
             component={calender}
             options={{
@@ -51,21 +64,26 @@ const ScreenMenu = () => {
               headerRight: () => <HeaderMenu />,
             }}
           />
-        </>
-      ) : (
-        <>
-          <Stack.Screen
-            name="Register"
-            component={Register}
-            options={{ headerShown: false }}
+           <Stack.Screen
+            name="OtherScreen"
+            component={OtherScreen}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
           />
           <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
+            name="ColourScreen"
+            component={ColourScreen}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
           />
-        </>
-      )}
+          
+          
+       </>
+    
     </Stack.Navigator>
   );
 };
