@@ -7,15 +7,17 @@ import Register from "../../screens/auth/Register";
 import Login from "../../screens/auth/Login";
 import { AuthContext } from "../../context/authContext";
 import HeaderMenu from "./HeaderMenu";
-import userInput1 from "../../screens/userInput1";
-import userInput2 from "../../screens/userInput2";
-import calender from "../../screens/calender";
-import mood from "../../screens/mood";
-import moodDress from "../../screens/moodDress";
+import UserInput1 from "../../screens/UserInput1";
+import UserInput2 from "../../screens/UserInput2";
+import Calender from "../../screens/Calender";
+import Mood from "../../screens/Mood";
+import MoodDress from "../../screens/MoodDress";
 import DressesScreen from "../../screens/Dress";
-import settings from "../../screens/settings";
+import Settings from "../../screens/Settings";
 import OtherScreen from "../../screens/OtherScreen";
 import ColourScreen from "../../screens/ColourScreen";
+import AccessoriesScreen from "../../screens/Accessories";
+import WardrobeScreen from "../../screens/Wardrobe";
 
 const ScreenMenu = () => {
   const [state] = useContext(AuthContext);
@@ -35,7 +37,7 @@ const ScreenMenu = () => {
           />
           <Stack.Screen
             name="userInput1"
-            component={userInput1}
+            component={UserInput1}
             options={{
               title: "Mood & Moment",
               headerRight: () => <HeaderMenu />,
@@ -43,7 +45,7 @@ const ScreenMenu = () => {
           />
           <Stack.Screen
             name="userInput2"
-            component={userInput2}
+            component={UserInput2}
             options={{
               title: "Mood & Moment",
               headerRight: () => <HeaderMenu />,
@@ -51,7 +53,7 @@ const ScreenMenu = () => {
           />
           <Stack.Screen
             name="settings"
-            component={settings}
+            component={Settings}
             options={{
               title: "Mood & Moment",
               headerRight: () => <HeaderMenu />,
@@ -59,7 +61,7 @@ const ScreenMenu = () => {
           />
           <Stack.Screen
             name="calender"
-            component={calender}
+            component={Calender}
             options={{
               title: "Mood & Moment",
               headerRight: () => <HeaderMenu />,
@@ -68,7 +70,7 @@ const ScreenMenu = () => {
 
           <Stack.Screen
             name="mood"
-            component={mood}
+            component={Mood}
             options={{
               title: "Mood & Moment",
               headerRight: () => <HeaderMenu />,
@@ -76,7 +78,7 @@ const ScreenMenu = () => {
           />
           <Stack.Screen
             name="dress"
-            component={moodDress}
+            component={MoodDress}
             options={{
               title: "Mood & Moment",
               headerRight: () => <HeaderMenu />,
@@ -86,6 +88,22 @@ const ScreenMenu = () => {
           <Stack.Screen
             name="eventDress"
             component={DressesScreen}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+          <Stack.Screen
+            name="eventAccessories"
+            component={AccessoriesScreen}
+            options={{
+              title: "Mood & Moment",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+          <Stack.Screen
+            name="WardrobeScreen"
+            component={WardrobeScreen}
             options={{
               title: "Mood & Moment",
               headerRight: () => <HeaderMenu />,

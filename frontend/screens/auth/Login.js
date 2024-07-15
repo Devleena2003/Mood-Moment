@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#F7336E",
+    backgroundColor: "#e1d5c9",
   },
   pageTitle: {
     fontSize: 40,

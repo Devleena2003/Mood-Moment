@@ -114,12 +114,15 @@ const Calender = () => {
 
       if (response.data.dresses.length > 0) {
         navigation.navigate("eventDress", { dresses: response.data.dresses });
+        speakText("Navigating to the dress screen");
       } else {
         Alert.alert("No dresses found for this event.");
+        speakText("No dresses found for this event.");
       }
     } catch (error) {
       console.error("Error fetching dresses:", error);
       Alert.alert("Failed to fetch dresses. Please try again.");
+      speakText("Failed to fetch dresses. Please try again.");
     }
   };
 
@@ -129,17 +132,19 @@ const Calender = () => {
     setModalVisible(false);
   };
 
-  const renderEventItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.eventItem}
-      onPress={() => handleEventPress(item)}
-      key={`${item.title}-${item.date}`} // Example: Combine title and date for unique key
-    >
-      <Text style={styles.eventTitle}>{item.title}</Text>
-      <Text>{item.description}</Text>
-      <Text>{moment(item.date).format("MMMM DD, YYYY")}</Text>
-    </TouchableOpacity>
-  );
+  const renderEventItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={styles.eventItem}
+        onPress={() => handleEventPress(item)}
+        key={`${item.title}-${item.date}`} // Example: Combine title and date for unique key
+      >
+        <Text style={styles.eventTitle}>{item.title}</Text>
+        <Text>{item.description}</Text>
+        <Text>{moment(item.date).format("MMMM DD, YYYY")}</Text>
+      </TouchableOpacity>
+    );
+  };
   const handleSaveEvent = async () => {
     try {
       const response = await axios.post(
@@ -175,46 +180,50 @@ const Calender = () => {
   return (
     <GestureHandlerRootView style={styles.container}>
       <PinchGestureHandler onGestureEvent={onPinchEvent}>
-        <ScrollView
-          contentContainerStyle={{ transform: [{ scale }] }}
-          scrollEnabled={isZoomEnabled}
-        >
-          <View style={styles.container}>
-            <Calendar
-              onDayPress={handleDayPress}
-              markedDates={{
-                [selectedDate]: {
-                  selected: true,
-                  disableTouchEvent: true,
-                  selectedColor: "blue",
-                  selectedTextColor: "white",
-                },
-              }}
-            />
-            <Modal
-              isVisible={modalVisible}
-              onBackdropPress={handleModalClose}
-              onBackButtonPress={handleModalClose}
-              backdropOpacity={0.5}
-            >
-              <View style={styles.modalContainer}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Event Title"
-                  value={eventTitle}
-                  onChangeText={setEventTitle}
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Event Description"
-                  multiline
-                  numberOfLines={4}
-                  value={eventDescription}
-                  onChangeText={setEventDescription}
-                />
-                <Button title="Save Event" onPress={handleSaveEvent} />
-              </View>
-            </Modal>
+        <View>
+          <ScrollView
+            contentContainerStyle={{ transform: [{ scale }] }}
+            scrollEnabled={isZoomEnabled}
+          >
+            <View style={styles.container}>
+              <Calendar
+                onDayPress={handleDayPress}
+                markedDates={{
+                  [selectedDate]: {
+                    selected: true,
+                    disableTouchEvent: true,
+                    selectedColor: "blue",
+                    selectedTextColor: "white",
+                  },
+                }}
+              />
+              <Modal
+                isVisible={modalVisible}
+                onBackdropPress={handleModalClose}
+                onBackButtonPress={handleModalClose}
+                backdropOpacity={0.5}
+              >
+                <View style={styles.modalContainer}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Event Title"
+                    value={eventTitle}
+                    onChangeText={setEventTitle}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Event Description"
+                    multiline
+                    numberOfLines={4}
+                    value={eventDescription}
+                    onChangeText={setEventDescription}
+                  />
+                  <Button title="Save Event" onPress={handleSaveEvent} />
+                </View>
+              </Modal>
+            </View>
+          </ScrollView>
+          <View>
             <FlatList
               style={styles.eventList}
               data={events}
@@ -222,7 +231,7 @@ const Calender = () => {
               renderItem={renderEventItem}
             />
           </View>
-        </ScrollView>
+        </View>
       </PinchGestureHandler>
     </GestureHandlerRootView>
   );

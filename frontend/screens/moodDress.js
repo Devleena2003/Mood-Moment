@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import axios from "axios"; // Import Axios
 const url = "http://192.168.29.3:8000";
-const moodDress = ({ route }) => {
+const MoodDress = ({ route }) => {
   const { selectedMood } = route.params; // Extracting selected mood from route params
   const [dresses, setDresses] = useState([]);
   console.log(selectedMood);
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default moodDress;
+export default MoodDress;

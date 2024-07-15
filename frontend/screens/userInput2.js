@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import axios from "axios";
 import { CheckBox } from "react-native-elements";
 
-const userInput2 = ({ navigation }) => {
+const UserInput2 = ({ navigation }) => {
   const [isCheckedRed, setIsCheckedRed] = useState(false);
   const [isCheckedBlue, setIsCheckedBlue] = useState(false);
   const [isCheckedGreen, setIsCheckedGreen] = useState(false);
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default userInput2;
+export default UserInput2;

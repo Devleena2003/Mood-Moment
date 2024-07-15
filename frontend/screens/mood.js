@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-const mood = ({ navigation }) => {
+const Mood = ({ navigation }) => {
   const handleMoodSelection = (mood) => {
     navigation.navigate("dress", { selectedMood: mood });
   };
@@ -97,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default mood;
+export default Mood;
